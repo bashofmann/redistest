@@ -9,15 +9,13 @@ function runTest(string $host, int $port, int $numIterations): void
 {
     $key = 'kv:product_abstract:key:de_de:17714';
     setupData($host, $port, $key);
+    $client = createRedisClient($host, $port);
+    $client->connect();
+    
     for ($i = 0; $i < $numIterations; $i++) {
-        $client = createRedisClient($host, $port);
-        $client->connect();
-
         $productDataJson = $client->get($key);
 
         printResult($productDataJson, $numIterations, $i);
-
-        $client->disconnect();
     }
 }
 
